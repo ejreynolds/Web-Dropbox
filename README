@@ -55,6 +55,8 @@ Configuration is done in the LOCAL CONFIGURATION section below.  The configurati
 RUNNING THIS THING
 This python script runs as a cgi script.  You might wish to rename dropbox.py to dropbox, and set an apache redirect / default handler to use it.
 
+You will, however, need to modify the "is_addr_remote" method in dropbox.py.  We we using this to check for valid UConn IP address ranges.  If you wish to open this up to anybody, simply have the method return 0, and nothing else.  Otherwise, modify this method to suit your desired IP ranges.  A returned value of 1 means that it is not an allowed address.  Similarly, a returned value of 0 indicated a valid address.
+
 For example, you will notice that http://dropbox.engr.uconn.edu redirects to http://dropbox.engr.uconn.edu/cgi-bin/dropbox
 
 DELETION SCRIPT
