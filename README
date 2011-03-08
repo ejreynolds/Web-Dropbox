@@ -28,13 +28,13 @@ Logging for uploading and downloading is down to file 'dropbox.log' in the dropb
 
 Here are the steps taken by this script when uploading and downloading.
 
-UPLOADING
-(1) Present a file upload form.
-(2) Upload file to the dropbox directory (see configuration below).
-(3) Display the link used to retrieve the file.
+	Uploading
+		(1) Present a file upload form.
+		(2) Upload file to the dropbox directory (see configuration below).
+		(3) Display the link used to retrieve the file.
 
-DOWNLOADING
-(1)  If invoked with a valid link, the file is sent to the browser.
+	Downloading
+		(1)  If invoked with a valid link, the file is sent to the browser.
 
 CONFIGURATION
 
@@ -51,3 +51,21 @@ Configuration is done in the LOCAL CONFIGURATION section below.  The configurati
     LOCAL_IPADDR_PREFIX   In order to restict the access of remote users, we must be able to identify local users.  This string contains the address prefix of your local IP addresses, for example '137.99.'.
  
     TEMPLATE_FILE   This configuration setting is optional.  The script uses an HTML template in which to imbed its HTML output.  This is the name of the template.  Within this template, occurances of the string <!--TITLE--> is replaced by the web page title, and <!--REPLACE--> is replaced by the remaining HTML output.  If this option is left blank or omitted, a simple default template is used.
+    
+RUNNING THIS THING
+This python script runs as a cgi script.  You might wish to rename dropbox.py to dropbox, and set an apache redirect / default handler to use it.
+
+For example, you will notice that http://dropbox.engr.uconn.edu redirects to http://dropbox.engr.uconn.edu/cgi-bin/dropbox
+
+DELETION SCRIPT
+I've provided a basic ruby script that can be run to delete files older than a certain number of days.
+
+Usage: $> ./delete_older_than.rb 7 /dropbox/files
+(this will delete all files located within /dropbox/files/ that are older than 7 days.)
+
+You would be wise to run this script as a system level cronjob (sudo crontab -e).
+
+Example:
+	0 2 * * * /dropbox/delete_older_than.rb 7 /dropbox/files/
+	
+	This will run every day at 2AM.

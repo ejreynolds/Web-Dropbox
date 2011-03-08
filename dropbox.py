@@ -145,6 +145,7 @@ LOCAL_IPADDR_PREFIX="137.99."
 #  Dropbox HTML template 
 #  (optional, a default template - see DEFAULT_TEMPLATE below - 
 #  is automatically provided if this file cannot be found or opened).
+#  You can create this text file using the placeholders given above, and place it in the same directory as this script.
 TEMPLATE_FILE="soe_template"
 
 
