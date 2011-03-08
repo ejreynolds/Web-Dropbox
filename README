@@ -1,0 +1,53 @@
+dropbox - web file sharing
+
+Original Source by Jon Rifkin <jon.rifkin (at) uconn.edu>
+Copyright 2006-2007 Jonathan Rifkin
+Copyright 2007-2011 Rohit Mehta <rohitm (at) engr.uconn.edu>
+Copyright 2011		Erik J. Reynolds <erik.j.reynolds (at) gmail.com>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+
+INTRODUCTION
+	
+This cgi script provides a large file sharing service.  Local and remote users can upload and download files, but remote users can only download files posted by local users. Privacy is maintained by assigning a unique password with each uploaded file.  After a file is uploaded, the user is shown a link which includes the file name and password, and which can be sent to others to retrieve the file (with the above mentioned restriction, remote users cannot retreive files posted by other remote users).
+
+Logging for uploading and downloading is down to file 'dropbox.log' in the dropbox directory.
+
+Here are the steps taken by this script when uploading and downloading.
+
+UPLOADING
+(1) Present a file upload form.
+(2) Upload file to the dropbox directory (see configuration below).
+(3) Display the link used to retrieve the file.
+
+DOWNLOADING
+(1)  If invoked with a valid link, the file is sent to the browser.
+
+CONFIGURATION
+
+Configuration is done in the LOCAL CONFIGURATION section below.  The configuration options are:
+
+	YOUR_LOCATION  This is the name of your location used for display purposes only.
+
+	FILE_LIMIT   Maximum file size in MB (10^6 bytes).  This is the limit shown to the user, but the script allows a grace interval of 6.9%, which accounts for difference between decimal MB (10^6) and binary MB (2^20), with an addition 2% margin.
+
+	FILE_RETENTION  Number of days after which files are deleted.  This value is for display purposes only.  This script does not delete the files; deletion must be done by a cron job or similar.
+
+	DROPBOX_BASE_DIR  This is the full path (such as '/home/dropbox') of the dropbox base directory.  The files/ and log/ directories are stored under this.  This directory must be readable and writable by the Web Server. 
+
+    LOCAL_IPADDR_PREFIX   In order to restict the access of remote users, we must be able to identify local users.  This string contains the address prefix of your local IP addresses, for example '137.99.'.
+ 
+    TEMPLATE_FILE   This configuration setting is optional.  The script uses an HTML template in which to imbed its HTML output.  This is the name of the template.  Within this template, occurances of the string <!--TITLE--> is replaced by the web page title, and <!--REPLACE--> is replaced by the remaining HTML output.  If this option is left blank or omitted, a simple default template is used.
